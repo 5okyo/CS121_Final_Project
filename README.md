@@ -1,4 +1,4 @@
-# Proposal | Davian Affognon
+# Proposal | Davian
 
 ## Purpose
 This project is intended to demonstrate mastery of concepts learned in CSC 121. This project was also made as a way for others to get a small glimpse of the world of language learning. 
