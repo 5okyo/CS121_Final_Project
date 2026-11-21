@@ -82,3 +82,138 @@ Players will be able to run through and clear preset dungeons. The program is si
 
 ## Technology
 My project is certainly possible in the other languages we've learned in this class. I will use Java on this project. 
+
+## Diagram
+```mermaid
+classDiagram
+    class Game {
+        Dungeon dungeon
+        Player player 
+        KanaBank kanaBank 
+    }
+
+    class Dungeon {
+        ArrayList~Room~ rooms 
+        Room startRoom
+        buildFloor(int floor) void
+    }
+
+    class Room {
+        String name
+        String description
+        HashMap~String, Room~ exits
+        ArrayList~Item~ items
+        Challenge challenge
+        connect(String dir, Room other) void
+        describe() String
+    }
+
+    class Player {
+        int hp
+        int maxHp 
+        Room currentRoom
+        ArrayList~Item~ inventory
+        move(String direction) boolean
+        takeDamage(int amount) void
+        heal(int amount) void 
+        useItem(String name) boolean
+    }
+
+    class Challenge {
+        <<abstract>>
+        String description
+        boolean cleared
+        int difficulty
+        resolve(Player p, KanaBank bank, Scanner in)* boolean
+    }
+
+    class Monster {
+        String name
+        int monsterHp
+        int damageToPlayer
+        int kanaPerRound
+        Script script
+        resolve(Player p, KanaBank bank, Scanner in) boolean
+    }
+
+    class LockedDoor {
+        String keyName
+        int kanaRequired
+        resolve(Player p, KanaBank bank, Scanner in) boolean
+    }
+
+    class Trap {
+        int timeLimitSeconds
+        int damage
+        resolve(Player p, KanaBank bank, Scanner in) boolean
+    }
+
+    class KanaBank {
+        ArrayList~Kana~ kanaList
+        loadKana() void
+        pickKana(Script script, int floor) Kana
+        recordResult(Kana kana, boolean correct) void
+    }
+
+    class Kana {
+        -String character
+        -String romaji
+        -Script script
+        -int timesSeen
+        -int timesCorrect
+        +getAccuracy() double
+        +recordResult(boolean correct) void
+    }
+
+    class Script {
+        <<enumeration>>
+        HIRAGANA
+        KATAKANA
+    }
+
+    class Item {
+        <<abstract>>
+        String name
+        String description
+        use(Player player)* void
+    }
+
+    class Potion {
+        int healAmount
+        use(Player player) void
+    }
+
+    class Key {
+        String doorName
+        use(Player player) void
+    }
+
+    class HintScroll {
+        use(Player player) void
+    }
+
+    Game  *--  Dungeon
+    Game  *--  Player
+    Game  *--  KanaBank
+
+    Dungeon  o--  Room
+    Room  o--  Item
+    Room  o--  Challenge : blocked by
+    Player  o--  Item
+    Player  -->  Room : currentRoom
+
+    Challenge <|-- Monster : extends
+    Challenge <|-- LockedDoor : extends
+    Challenge <|-- Trap : extends
+    Challenge ..> KanaBank : uses
+    Challenge ..> Player : affects
+
+    Item <|-- Potion : extends
+    Item <|-- Key : extends
+    Item <|-- HintScroll : extends
+    Key ..> LockedDoor : unlocks
+
+    KanaBank *-- Kana
+    Kana --> Script
+    Monster --> Script
+```
