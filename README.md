@@ -7,9 +7,6 @@ This project is intended to demonstrate mastery of concepts learned in CSC 121. 
 KanaGame is a text based dungeon crawler made to teach players the basic Japanese alphabet.  It will feature 5-6 floors of both Hiragana, the main alphabet, and Katakana, which the alphabet primarily used for loan words taken from other languages. 
 
 
-
-
-
 ## Classes
 This project relies on 10 classes and 1 enum all shown in the diagram below as well as explained here.
 
@@ -77,5 +74,11 @@ This project relies on 10 classes and 1 enum all shown in the diagram below as w
 ## Anticipated Use Case
 Players will be able to run through and clear preset dungeons. The program is single-player and runs in the command line, so the player only needs to type short commands.
 
+## Use of Object-Oriented Programming Paradigms
+- Inheritance - Three challenge classes (Monster, LockedDoor, and Trap) inherit from the abstract Challenge class, and three item classes (Potion, Key, and HintScroll) inherit from the abstract Item class.
+- Aggregation - The Dungeon class holds a list of Room objects, and each Room holds a list of Item objects. The Player also holds a list of Item objects in its inventory. Items exist independently of whoever holds them, and they move from a room into the player's inventory when the player picks them up.
+- Encapsulation - All of the data members are private and accessible only through methods. For example, a player's hp can only be changed through takeDamage() and heal(), which keep it from dropping below 0 or going above maxHp. A monster's HP is changed only through its own takeDamage() method.
+- Polymorphism - Challenge has an abstract resolve() method and Item has an abstract use() method, which each subclass implements in its own way. When the player enters a room, Game calls resolve() on the room's challenge without knowing whether it is a Monster, LockedDoor, or Trap. A Player calls use() on items in its inventory without knowing whether each is a Potion, Key, or HintScroll.
+
 ## Technology
-My project is certainly possible in the other languages we've learned in this class. However, I chose Java
+My project is certainly possible in the other languages we've learned in this class. I will use Java on this project. 
